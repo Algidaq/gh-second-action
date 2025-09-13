@@ -1,7 +1,7 @@
 name: Test Project
 on: push
 jobs:
-    run-test:
+    run-unit-test:
         runs-on: ubuntu-latest
         steps:
             - name: clone code
