@@ -1,0 +1,17 @@
+name: Event Filters and activities
+on:
+    pull_request: 
+        types: [opened]
+    workflow_dispatch:
+jobs: 
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: clone code
+              uses: actions/checkout@v5
+            - name: install deps
+              run: npm ci
+            - name: build code
+              run: npm run build
+            - name: deploy code
+              run: echo "deploy..."
