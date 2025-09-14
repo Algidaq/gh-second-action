@@ -1,0 +1,8 @@
+name: Expressions and functions
+on: workflow_dispatch
+jobs:
+    info:
+     runs-on: ubuntu-latest
+     steps:
+        - name: print github
+          run: echo "${{toJSON(github)}}"
