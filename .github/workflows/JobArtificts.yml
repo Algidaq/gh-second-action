@@ -40,5 +40,5 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: dist-artifact
-            - name: deploying
-              run: echo "${{toJson(github.event)}}"
+            - name: deploying..
+              run: ls -l dist/
