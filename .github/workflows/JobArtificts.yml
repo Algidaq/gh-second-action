@@ -36,11 +36,9 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         steps:
-            - name: clone code
-              uses: actions/checkout@v5
-            - name: install deps 
-              run: npm ci
-            - name: build code 
-              run: npm run build
-            - name: deploying
-              run: echo "${{toJson(github.event)}}"
+            - name: download build artifact
+              uses: actions/download-artifact@v4
+              with:
+                name: dist-artifact
+            - name: deploying..
+              run: ls -l dist/
