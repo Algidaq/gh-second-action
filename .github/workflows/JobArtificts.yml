@@ -1,0 +1,39 @@
+name: Job Artificts
+on: 
+    push:
+        branches: 
+            - main
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+           - name: clone code 
+             uses: actions/checkout@v5
+           - name: install deps
+             run: npm ci
+           - name: lint code
+             run: npm run lint 
+           - name: run unit test
+             run: npm run test
+    build:
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: clone code
+              uses: actions/checkout@v5
+            - name: install deps 
+              run: npm ci
+            - name: build code 
+              run: npm run build
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - name: clone code
+              uses: actions/checkout@v5
+            - name: install deps 
+              run: npm ci
+            - name: build code 
+              run: npm run build
+            - name: deploying
+              run: echo "${{toJson(github.event)}}"
