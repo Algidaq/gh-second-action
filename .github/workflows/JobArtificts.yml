@@ -1,4 +1,4 @@
-name: Job Artificts
+name: Job Artifacts
 on: 
     push:
         branches: 
@@ -25,6 +25,13 @@ jobs:
               run: npm ci
             - name: build code 
               run: npm run build
+            - name: upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: dist-artifact
+                path: |
+                    dist
+                    package.json
     deploy:
         needs: build
         runs-on: ubuntu-latest
