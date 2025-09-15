@@ -46,6 +46,6 @@ jobs:
               with:
                 name: dist-artifact
             - name: echo js file 
-              run: ${{needs.build.outputs.script-file}}
+              run: echo ${{needs.build.outputs.script-file}}
             - name: deploying..
               run: ls -l dist/
