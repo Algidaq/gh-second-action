@@ -3,6 +3,8 @@ on:
     push:
         branches: 
             - main
+env:
+  FRONTEND_WORKSPACE: frontend
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -15,11 +17,11 @@ jobs:
               path: ~/.npm
               key: deps-node-modules-${{hashFiles('**/package-lock.json')}}
            - name: install deps
-             run: npm ci
+             run: npm ci --workspace=frontend
            - name: lint code
-             run: npm run lint 
+             run: npm run lint --workspace=${{env.FRONTEND_WORKSPACE}}
            - name: run unit test
-             run: npm run test
+             run: npm run test --workspace=${{env.FRONTEND_WORKSPACE}}
     build:
         needs: test
         runs-on: ubuntu-latest
@@ -34,19 +36,19 @@ jobs:
                 path: ~/.npm
                 key: deps-node-modules-${{hashFiles('**/package-lock.json')}}
             - name: install deps 
-              run: npm ci
+              run: npm ci --workspace=${{env.FRONTEND_WORKSPACE}}
             - name: build code 
-              run: npm run build
+              run: npm run build --workspace=${{env.FRONTEND_WORKSPACE}}
             - name: Setting Output
               id: settingOutputs
-              run: find dist/**/*.js -type f -execdir echo "script-file={}" >> "$GITHUB_OUTPUT" ";"
+              run: find frontend/dist/**/*.js -type f -execdir echo  "script-file={}" >> "$GITHUB_OUTPUT" ";"
             - name: upload artifacts
               uses: actions/upload-artifact@v4
               with:
-                name: dist-artifact
+                name: frontend-artifact
                 path: |
-                    dist
-                    package.json
+                    frontend/dist
+                    frontend/package.json
     deploy:
         needs: build
         runs-on: ubuntu-latest
@@ -54,8 +56,8 @@ jobs:
             - name: download build artifact
               uses: actions/download-artifact@v4
               with:
-                name: dist-artifact
+                name: frontend-artifact
             - name: echo js file 
               run: echo ${{needs.build.outputs.script-file}}
             - name: deploying..
-              run: ls -l dist/
+              run: ls -l
