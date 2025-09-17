@@ -24,8 +24,8 @@ jobs:
             - name: clone code
               uses: actions/checkout@v5
             - name: install deps
-              run: npm ci
+              run: npm ci --workspace=fronted
             - name: build code
-              run: npm run build
+              run: npm run build --workspace=frontends
             - name: deploy code
               run: echo "deploy.."
